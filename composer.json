@@ -4,7 +4,12 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "4.2.*",
+		"dingo/api": "0.7.*@dev",
+		"lucadegasperi/oauth2-server-laravel": "1.0.x"
+	},
+	"require-dev": {
+	    "way/generators": "2.*"
 	},
 	"autoload": {
 		"classmap": [

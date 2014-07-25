@@ -20,4 +20,13 @@ class HomeController extends BaseController {
 		return View::make('hello');
 	}
 
+	public function index()
+	{
+		// dd($this->api);
+		// dd($this->api->router);		
+		// dd($this->api->router->requestedVersion);
+		echo "string";
+
+	}
+
 }

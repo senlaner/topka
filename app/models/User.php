@@ -1,26 +1,23 @@
 <?php
 
-use Illuminate\Auth\UserTrait;
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableTrait;
-use Illuminate\Auth\Reminders\RemindableInterface;
+class User extends \Eloquent {
+	protected $fillable = [];
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
 
-	use UserTrait, RemindableTrait;
+	// protected $hidden = ["old_encrypted_password","reset_password_token","reset_password_sent_at","reset_password_sent_at"];
+	
+}
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+class UserTransformer extends League\Fractal\TransformerAbstract {
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('password', 'remember_token');
+    public function transform(User $user)
+    {
+        return [
+            'id' => (int) $user->id,
+            'username' => $user->username,
+            'email' => $user->email,
+            'name' => $user->name,
+        ];
+    }
 
 }

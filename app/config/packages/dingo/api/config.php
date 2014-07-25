@@ -37,7 +37,7 @@ return [
     |
     */
 
-    'prefix' => "api",
+    'prefix' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -49,7 +49,7 @@ return [
     |
     */
 
-    'domain' => null,
+    'domain' => "api.topka.dev",
 
     /*
     |--------------------------------------------------------------------------
@@ -78,8 +78,22 @@ return [
     'auth' => [
         'basic' => function ($app) {
             return new Dingo\Api\Auth\BasicProvider($app['auth']);
+        },
+        'oauth' => function($app) {
+            $provider = new Dingo\Api\Auth\LeagueOAuth2Provider($app['oauth2.resource-server']);
+
+            $provider->setUserCallback(function($id) {
+                return User::find($id);
+            });
+
+            $provider->setClientCallback(function($id) {
+                return Client::find($id);
+            });
+
+            return $provider;
         }
     ],
+
 
     /*
     |--------------------------------------------------------------------------

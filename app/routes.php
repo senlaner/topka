@@ -11,30 +11,6 @@
 |
 */
 
-Route::api(['version' => 'v1'], function()
-{
-    Route::get('posts', function()
-    {
-        return Post::all();
-    });
-
-    Route::get('posts/{ids}', function($ids)
-    {
-        $ids = explode(',', $ids);
-
-        return Post::whereIn('id', $ids)->get();
-    })->where('ids', '[\d,]+');
-});
-
-Route::api(['version' => 'v2'], function()
-{
-    Route::get('posts', function()
-    {
-        $embeds = array_filter(explode(',', Input::get('embeds')));
-
-        return Post::with($embeds)->get();
-    });
-});
 
 /*
 
@@ -80,3 +56,272 @@ Route::api(['version' => ['v1','v2'], 'protected' => true], function()
 });
 
 */
+
+
+$api_routes = array(
+	'topsales' => [
+		'v1' => [
+			'users/index',
+			'users/create',
+		],
+		'v2' => [
+			'users/index',
+			'users/create',
+		],
+	],
+	'topdeals' => [
+		'v1' => [
+			'users/index',
+			'users/create',
+		],
+		'v2,v2.1,v2.2' => [
+			'users/index',
+			'users/create', 
+		],
+		'v2.1' => [
+			'users/index',
+		],
+		'v2.2' => [
+			'users/index',
+		],
+	],
+);
+
+
+$code = '';
+
+foreach ($api_routes as $prefix => $v) {
+
+	$code .= 'Route::group(array("prefix" => "'.$prefix.'"), function(){';
+		
+		foreach ($v as $version => $vv) {
+
+			$versions = explode(",", $version);
+
+			$version_str = implode('","', $versions);
+			
+			$code .= 'Route::api(["version" => ["'.$version_str.'"]], function(){';
+
+				foreach ($vv as $kk => $route) {
+
+					list($controller, $action) = explode("/", $route);
+
+					$code .= 'Route::get("'.$route.'","'.'api\\\\'.$prefix.'\\\\'.$versions[0].'\\\\'.ucfirst($controller).'Controller@'.$action.'");';
+
+				}
+			
+			$code .= '});';		
+		}
+
+	$code .= '});';
+
+}
+
+// eval($code);
+
+// echo $code;exit;
+
+
+// Route::group(array("prefix" => "topsales"), function(){Route::api(["version" => ["v1"]], function(){Route::get("users/index","api\\topsales\\v1\\UsersController@index");Route::get("users/create","api\\topsales\\v1\\UsersController@create");});Route::api(["version" => ["v2"]], function(){Route::get("users/index","api\\topsales\\v2\\UsersController@index");Route::get("users/create","api\\topsales\\v2\\UsersController@create");});});Route::group(array("prefix" => "topdeals"), function(){Route::api(["version" => ["v1"]], function(){Route::get("users/index","api\\topdeals\\v1\\UsersController@index");Route::get("users/create","api\\topdeals\\v1\\UsersController@create");});Route::api(["version" => ["v2","v2.1","v2.2"]], function(){Route::get("users/index","api\\topdeals\\v2\\UsersController@index");Route::get("users/create","api\\topdeals\\v2\\UsersController@create");});Route::api(["version" => "v2.1"], function(){Route::get("users/index","api\\topdeals\\v1\\UsersController@index");});Route::api(["version" => "v2.2"], function(){Route::get("users/index","api\\topdeals\\v2.2\\UsersController@index");});});
+
+
+
+
+// Route::group(array("prefix" => "topsales"), function(){
+
+// 	Route::api(["version" => ["v1"]], function(){
+// 		// Route::get("users/index","HomeController@index");
+// 		Route::get("users/index","api\\topsales\\v1\\UsersController@index");
+// 		Route::get("users/create","UsersController@create");
+// 	});
+
+// 	Route::api(["version" => ["v2"]], function(){
+// 		return Route::get("users/index","UsersController@index");
+// 		return Route::get("users/create","UsersController@create");
+// 	});
+// });
+
+
+
+// // api路由实践
+// Route::group(array('prefix' => 'topdeals'), function()
+// {
+
+
+//     Route::api(['version' => 'v1'], function()
+// 	{
+
+
+// 		Route::get('users', function(){
+// 			return "users_v1";
+// 		});
+
+// 		Route::get('index', function(){
+// 			return "index_v1";
+// 		});
+
+// 	});
+
+// 	Route::api(['version' => ['v2','v2.1','v2.2']], function()
+// 	{
+
+// 		// Route::get('', function(){
+// 		// 	return "root_v2";
+// 		// });
+
+// 		Route::get('users', function(){
+// 			return "users_v2";
+// 		});
+
+// 		Route::get('index', function(){
+// 			return "index_v2";
+// 		});
+
+// 		// Route::get('login',)
+// 		// return Route::get('cars', "api\\UsersController@cars");
+// 		// return autoRoute("cars");
+
+
+// 		// return Route::controller("Users","UsersController");
+
+// 	});
+
+// 	Route::api(['version' => 'v2.1'], function()
+// 	{
+
+// 		Route::get('users', function(){
+// 			return "users_v2.1";
+// 		});
+
+// 	});
+
+// 	Route::api(['version' => 'v2.2'], function()
+// 	{
+
+// 		Route::get('users', function(){
+// 			return "users_v2.2";
+// 		});
+
+// 	});
+
+
+// });
+
+
+// Route::group(array('prefix' => 'topsales'), function()
+// {
+
+//     Route::api(['version' => 'v1'], function()
+// 	{
+
+// 		Route::get('users', function(){
+
+// 			// dd(func_get_args());
+
+
+// 			return "aaaa";
+// 		});
+
+// 		Route::get('index', function(){
+// 			return "aaaa1";
+// 		});
+
+// 	});
+
+
+// 	Route::api(['version' => 'v2'], function()
+// 	{
+
+// 		Route::get('users', function(){
+// 			return "aaaa_v2";
+// 		});
+
+// 		Route::get('index', function(){
+// 			return "aaaa1_v2";
+// 		});
+
+// 	});
+
+
+// });
+
+
+// function apiAutoRoute($controller, $action, $version, ){
+// 	return Route::get($controller.'/'.$action, "api\{}\UsersController@cars");
+// }
+
+
+// api路由实践
+// Route::group(array('prefix' => 'topdeals'), function()
+// {
+
+
+//     Route::api(['version' => 'v1'], function()
+// 	{
+
+
+// 		Route::get('users', function(){
+// 			return "users_v1";
+// 		});
+
+// 		Route::get('index', function(){
+// 			return "index_v1";
+// 		});
+
+// 	});
+
+// 	Route::api(['version' => ['v2','v2.1','v2.2']], function()
+// 	{
+
+// 		// Route::get('', function(){
+// 		// 	return "root_v2";
+// 		// });
+
+// 		Route::get('users', function(){
+// 			return "users_v2";
+// 		});
+
+// 		Route::get('index', function(){
+// 			return "index_v2";
+// 		});
+
+// 		// Route::get('login',)
+// 		// return Route::get('cars', "api\\UsersController@cars");
+// 		// return autoRoute("cars");
+
+
+// 		// return Route::controller("Users","UsersController");
+
+// 	});
+
+// 	Route::api(['version' => 'v2.1'], function()
+// 	{
+
+// 		Route::get('users', function(){
+// 			return "users_v2.1";
+// 		});
+
+// 	});
+
+// 	Route::api(['version' => 'v2.2'], function()
+// 	{
+
+// 		Route::get('users', function(){
+// 			return "users_v2.2";
+// 		});
+
+// 	});
+
+
+// });
+
+
+
+
+
+
+
+
+
+
+

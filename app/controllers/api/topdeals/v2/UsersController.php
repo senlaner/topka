@@ -1,9 +1,21 @@
 <?php
 
-namespace Api;
+namespace Api\topdeals\v2;
 use DB;
 
 class UsersController extends \BaseController {
+
+
+
+	function getIndex(){
+
+	}
+
+	function postIndex(){
+		
+	}
+
+
 
 	/**
 	 * Display a listing of the resource.
@@ -14,10 +26,7 @@ class UsersController extends \BaseController {
 	public function index()
 	{
 
-		$results = DB::select('select * from users where id = ?', array(100001));
-
-		dd($results);
-		//
+		return "user_index_v2";
 	}
 
 	/**
@@ -29,6 +38,7 @@ class UsersController extends \BaseController {
 	public function create()
 	{
 		//
+		return "user_create_v2";
 	}
 
 	/**

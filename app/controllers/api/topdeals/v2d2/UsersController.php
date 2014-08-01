@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\topdeals\v2.1;
+namespace Api\topdeals\v2d2;
 use DB;
 
 class UsersController extends \BaseController {
@@ -26,7 +26,7 @@ class UsersController extends \BaseController {
 	public function index()
 	{
 
-		return "user_index_v2.1";
+		return "user_index_v2.2";
 	}
 
 	/**
@@ -38,7 +38,7 @@ class UsersController extends \BaseController {
 	public function create()
 	{
 		//
-		return "user_create_v2.1";
+		return "user_create_v2.2";
 	}
 
 	/**

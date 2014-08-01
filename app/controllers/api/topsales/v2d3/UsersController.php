@@ -1,49 +1,31 @@
-<?php
-
-namespace Api\topdeals\v2.2;
-use DB;
+<?php namespace api\topsales\v2d3;
 
 class UsersController extends \BaseController {
 
-
-
-	function getIndex(){
-
-	}
-
-	function postIndex(){
-		
-	}
-
-
-
 	/**
 	 * Display a listing of the resource.
-	 * GET /api/users
 	 *
 	 * @return Response
 	 */
 	public function index()
 	{
-
-		return "user_index_v2.2";
+		return "topsales_users_index_v23_1";
 	}
+
 
 	/**
 	 * Show the form for creating a new resource.
-	 * GET /api/users/create
 	 *
 	 * @return Response
 	 */
 	public function create()
 	{
 		//
-		return "user_create_v2.2";
 	}
+
 
 	/**
 	 * Store a newly created resource in storage.
-	 * POST /api/users
 	 *
 	 * @return Response
 	 */
@@ -52,9 +34,9 @@ class UsersController extends \BaseController {
 		//
 	}
 
+
 	/**
 	 * Display the specified resource.
-	 * GET /api/users/{id}
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -64,9 +46,9 @@ class UsersController extends \BaseController {
 		//
 	}
 
+
 	/**
 	 * Show the form for editing the specified resource.
-	 * GET /api/users/{id}/edit
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -76,9 +58,9 @@ class UsersController extends \BaseController {
 		//
 	}
 
+
 	/**
 	 * Update the specified resource in storage.
-	 * PUT /api/users/{id}
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -88,9 +70,9 @@ class UsersController extends \BaseController {
 		//
 	}
 
+
 	/**
 	 * Remove the specified resource from storage.
-	 * DELETE /api/users/{id}
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -99,5 +81,6 @@ class UsersController extends \BaseController {
 	{
 		//
 	}
+
 
 }
